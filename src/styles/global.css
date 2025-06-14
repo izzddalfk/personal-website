@@ -1,15 +1,19 @@
-/*
-  The CSS in this style tag is based off of Bear Blog's default CSS.
-  https://github.com/HermanMartinus/bearblog/blob/297026a877bc2ab2b3bdfbd6b9f7961c350917dd/templates/styles/blog/default.css
-  License MIT: https://github.com/HermanMartinus/bearblog/blob/master/LICENSE.md
- */
 
  /*
-  Courier Prime: Used for body text
-  Rubik: Used for headings
+  Typography setup
+  Onest: Used for body text -> previously use "Delius" but it does not support font weights
+  Courier Prime: Used headings and any text in blocks
+  Rubik: Not determined yet
 */
- @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Delius&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+ @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Onest:wght@100..900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
  @import "tailwindcss";
+
+ /* Tailwindcss preflight */
+@layer theme, base, components, utilities;
+
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/preflight.css" layer(base);
+@import "tailwindcss/utilities.css" layer(utilities);
 
 :root {
 	--accent: #2337ff;
@@ -24,7 +28,7 @@
 		0 16px 32px rgba(var(--gray), 33%);
 }
 body {
-	font-family: 'Delius', cursive, sans-serif;
+	font-family: 'Onest', sans-serif;
 	/* font-family: 'Courier Prime', sans-serif; */
 	margin: 0;
 	padding: 0;
@@ -38,10 +42,8 @@ body {
 	line-height: 1.6;
 }
 main {
-	width: 720px;
-	max-width: calc(100% - 2em);
+	max-width: 720px;
 	margin: auto;
-	padding: 3em 1em;
 }
 h1,
 h2,
@@ -49,9 +51,9 @@ h3,
 h4,
 h5,
 h6 {
+	@apply my-2;
 	font-weight: 700;
 	font-family: 'Courier Prime', sans-serif;
-	margin: 0 0 0.5rem 0;
 	color: rgb(var(--black));
 	line-height: 1.2;
 	letter-spacing: -0.1rem;
@@ -85,7 +87,7 @@ p {
 	margin-bottom: 1em;
 }
 .prose p {
-	margin-bottom: 2em;
+	@apply mb-4;
 }
 textarea {
 	width: 100%;
@@ -117,10 +119,8 @@ pre > code {
 	all: unset;
 }
 blockquote {
+	@apply pt-4 pb-1 pl-4 bg-stone-100;
 	border-left: 4px solid var(--accent);
-	padding: 0 0 0 20px;
-	margin: 0px;
-	font-size: 1.333em;
 }
 hr {
 	border: none;
