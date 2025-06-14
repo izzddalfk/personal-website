@@ -4,6 +4,13 @@
   License MIT: https://github.com/HermanMartinus/bearblog/blob/master/LICENSE.md
  */
 
+ /*
+  Courier Prime: Used for body text
+  Rubik: Used for headings
+*/
+ @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Delius&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+ @import "tailwindcss";
+
 :root {
 	--accent: #2337ff;
 	--accent-dark: #000d8a;
@@ -16,22 +23,9 @@
 		0 2px 6px rgba(var(--gray), 25%), 0 8px 24px rgba(var(--gray), 33%),
 		0 16px 32px rgba(var(--gray), 33%);
 }
-@font-face {
-	font-family: 'Atkinson';
-	src: url('/fonts/atkinson-regular.woff') format('woff');
-	font-weight: 400;
-	font-style: normal;
-	font-display: swap;
-}
-@font-face {
-	font-family: 'Atkinson';
-	src: url('/fonts/atkinson-bold.woff') format('woff');
-	font-weight: 700;
-	font-style: normal;
-	font-display: swap;
-}
 body {
-	font-family: 'Atkinson', sans-serif;
+	font-family: 'Delius', cursive, sans-serif;
+	/* font-family: 'Courier Prime', sans-serif; */
 	margin: 0;
 	padding: 0;
 	text-align: left;
@@ -40,8 +34,8 @@ body {
 	word-wrap: break-word;
 	overflow-wrap: break-word;
 	color: rgb(var(--gray-dark));
-	font-size: 20px;
-	line-height: 1.7;
+	font-size: 1.25rem;
+	line-height: 1.6;
 }
 main {
 	width: 720px;
@@ -55,9 +49,12 @@ h3,
 h4,
 h5,
 h6 {
+	font-weight: 700;
+	font-family: 'Courier Prime', sans-serif;
 	margin: 0 0 0.5rem 0;
 	color: rgb(var(--black));
 	line-height: 1.2;
+	letter-spacing: -0.1rem;
 }
 h1 {
 	font-size: 3.052em;
@@ -106,11 +103,13 @@ img {
 	border-radius: 8px;
 }
 code {
+	font-family: 'Courier Prime', monospace;
 	padding: 2px 5px;
 	background-color: rgb(var(--gray-light));
 	border-radius: 2px;
 }
 pre {
+	font-family: 'Courier Prime', monospace;
 	padding: 1.5em;
 	border-radius: 8px;
 }
