@@ -6,7 +6,7 @@
             <div class="tooltip-content" :class="tooltipPositionClass" :style="popoverStyle" ref="tooltipRef"
                 @mouseenter="!isMobile && handlePopoverMouseEnter()"
                 @mouseleave="!isMobile && handlePopoverMouseLeave()">
-                {{ content }}
+                <div v-html="content"></div>
                 <button v-if="isMobile" class="close-button" @click.stop="closeTooltip">×</button>
             </div>
         </Teleport>
