@@ -20,18 +20,11 @@ jobs:
     steps:
       - name: Checkout your repository using git
         uses: actions/checkout@v4
-      - name: Setup Bun
-        uses: oven-sh/setup-bun@v1
-        with:
-          bun-version: latest
-      - name: Install dependencies
-        run: bun install
-      - name: Build with Astro
-        run: bun run build
-      - name: Upload Pages Artifact
-        uses: actions/upload-pages-artifact@v1
-        with:
-          path: ./dist
+      # This action is officially from Astro to build and upload compiled sites to GitHub Pages
+      # Head to this page for more information:
+      # https://docs.astro.build/en/guides/deploy/github/
+      - name: Install, build, and upload your site
+        uses: withastro/action@v3
 
   deploy:
     needs: build
