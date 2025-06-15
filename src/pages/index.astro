@@ -1,8 +1,16 @@
 ---
+import { getCollection } from "astro:content";
+import { Image } from "astro:assets";
 import BaseHead from "../components/BaseHead.astro";
+import FormattedDate from "../components/FormattedDate.astro";
 import Footer from "../components/Footer.astro";
 import PopOver from "../components/vue/PopOver.vue";
+import BlogItem from "../components/vue/BlogItem.vue";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
+
+const posts = (await getCollection("blog")).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
 ---
 
 <!doctype html>
@@ -12,34 +20,62 @@ import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
   </head>
   <body>
     <main class="pt-6">
-      <p
-        class="text-2xl font-bold text-center"
-        aria-describedby="value-description"
-      >
-        Dari engineering ke management, dari konsep ke realita. <br />
-        Membantu developer untuk bertumbuh dan<br /> bisnis berkembang di era teknologi
-      </p>
-      <div class="flex my-8 justify-center">
-        <img
-          class="rounded-full w-32 h-32 object-cover"
-          src="https://images.unsplash.com/photo-1711129250419-564acf7072a0?q=80&w=4140&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-          alt="avatar"
-        />
-      </div>
-      <p class="text-base">
-        Hi, Fikri disini! Aku software engineer dan Asisten Engineering Manager
-        di <PopOver
-          content="<div class='flex flex-col gap-y-2 text-sm'>Commerce platform di Arab Saudi.<a class='text-blue-300 underline decoration-dotted' href='https://haraj.com.sa' target='_blank'>https://haraj.com.sa</a></div>"
-          client:load>Haraj</PopOver
-        >, mengelola tim remote dari Indonesia sambil membangun usaha sendiri.
-      </p>
-      <p class="text-base">
-        Aku percaya teknologi ada untuk mengubah hidup orang menjadi lebih baik.
-        Meski bukan developer superstar, aku suka memecahkan masalah dan berbagi
-        pengalaman untuk dampak positif. Yuk berkolaborasi!
-      </p>
+      <div class="flex flex-col gap-y-4">
+        <!-- Hero section? -->
+        <div class="flex flex-col gap-y-4">
+          <p
+            class="text-2xl font-bold text-center"
+            aria-describedby="value-description"
+          >
+            Dari engineering ke management, dari konsep ke realita. <br />
+            Membantu developer untuk bertumbuh dan<br /> bisnis berkembang di era
+            teknologi
+          </p>
+          <div class="flex justify-center">
+            <img
+              class="rounded-full w-32 h-32 object-cover"
+              src="https://images.unsplash.com/photo-1711129250419-564acf7072a0?q=80&w=4140&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              alt="avatar"
+            />
+          </div>
+          <div>
+            <p class="text-base">
+              Hi, Fikri disini! Aku software engineer dan Asisten Engineering
+              Manager di <PopOver
+                content="<div class='flex flex-col gap-y-2 text-sm'>Commerce platform di Arab Saudi.<a class='text-blue-300 underline decoration-dotted' href='https://haraj.com.sa' target='_blank'>https://haraj.com.sa</a></div>"
+                client:load>Haraj</PopOver
+              >, mengelola tim remote dari Indonesia sambil membangun usaha
+              sendiri.
+            </p>
+            <p class="text-base">
+              Aku percaya teknologi ada untuk mengubah hidup orang menjadi lebih
+              baik. Meski bukan developer superstar, aku suka memecahkan masalah
+              dan berbagi pengalaman untuk dampak positif. Yuk berkolaborasi!
+            </p>
+          </div>
+        </div>
 
-      <!-- Blog list should be here -->
+        <!-- Blog list using Vue component -->
+        <section class="max-w-3xl mx-auto w-full">
+          <ul class="space-y-6">
+            {
+              posts.map((post) => (
+                <li>
+                  <a href={`/blog/${post.id}/`}>
+                    <BlogItem
+                      post={post}
+                      imageUrl={post.data.heroImage?.src || ""}
+                      client:load
+                    >
+                      <FormattedDate slot="date" date={post.data.pubDate} />
+                    </BlogItem>
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </section>
+      </div>
     </main>
     <Footer />
   </body>
