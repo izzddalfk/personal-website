@@ -6,7 +6,7 @@ import FormattedDate from "../components/FormattedDate.astro";
 import Footer from "../components/Footer.astro";
 import PopOver from "../components/vue/PopOver.vue";
 import BlogItem from "../components/vue/BlogItem.vue";
-import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
+import { SITE_TITLE, SITE_DESCRIPTION, BASE_URL } from "../consts";
 
 // Pagination configuration
 const POSTS_PER_PAGE = 5;
@@ -28,7 +28,7 @@ const posts = allPosts.slice(startIndex, endIndex);
 
 // Previous and next page URLs
 const prevPageUrl = null; // No previous page for index
-const nextPageUrl = totalPages > 1 ? `/blog` : null;
+const nextPageUrl = totalPages > 1 ? `${BASE_URL}/blog` : null;
 
 // Calculate page numbers to display
 const pageNumbers: (number | string)[] = [];
@@ -107,7 +107,7 @@ if (totalPages <= maxPagesToShow) {
             {
               posts.map((post) => (
                 <li>
-                  <a href={`/blog/${post.id}/`}>
+                  <a href={`${BASE_URL}/blog/${post.id}/`}>
                     <BlogItem
                       post={post}
                       imageUrl={post.data.heroImage?.src || ""}

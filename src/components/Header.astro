@@ -1,5 +1,5 @@
 ---
-import { SITE_TITLE } from "../consts";
+import { SITE_TITLE, BASE_URL } from "../consts";
 import DarkModeToggle from "./vue/DarkModeToggle.vue";
 ---
 
@@ -7,8 +7,13 @@ import DarkModeToggle from "./vue/DarkModeToggle.vue";
   <nav>
     <div class="left-spacer"></div>
     <div class="logo">
-      <a href="/">
-        <img src="/favicon.svg" alt={SITE_TITLE} width="36" height="36" />
+      <a href={BASE_URL + "/"}>
+        <img
+          src={BASE_URL + "/favicon.svg"}
+          alt={SITE_TITLE}
+          width="36"
+          height="36"
+        />
       </a>
     </div>
     <div class="dark-mode-container">

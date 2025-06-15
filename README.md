@@ -74,6 +74,17 @@ This website is automatically deployed to GitHub Pages using GitHub Actions. Whe
    - Build the site with Astro
    - Deploy to GitHub Pages
 
+### Internal Links Configuration
+
+Ketika menggunakan `base` path dalam konfigurasi Astro, semua link internal perlu dimulai dengan nilai `base` tersebut. Beberapa penyesuaian yang telah dilakukan:
+
+1. Menambahkan konstanta `BASE_URL` di `src/consts.ts`
+2. Mengupdate semua link di komponen-komponen untuk menggunakan `BASE_URL`, termasuk:
+   - Link navigasi di `Header.astro`
+   - Link artikel di halaman blog
+   - Link pagination
+   - Link RSS Feed
+
 ### GitHub Repository Setup
 
 To complete the deployment setup:
