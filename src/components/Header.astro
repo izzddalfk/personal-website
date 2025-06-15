@@ -1,47 +1,65 @@
 ---
-import HeaderLink from "./HeaderLink.astro";
 import { SITE_TITLE } from "../consts";
+import DarkModeToggle from "./vue/DarkModeToggle.vue";
 ---
 
 <header>
   <nav>
-    <h2 class="text-amber-700"><a href="/">{SITE_TITLE}</a></h2>
-    <div class="internal-links">
-      <HeaderLink href="/">Home</HeaderLink>
-      <HeaderLink href="/blog">Blog</HeaderLink>
-      <HeaderLink href="/about">About</HeaderLink>
+    <div class="left-spacer"></div>
+    <div class="logo">
+      <a href="/">
+        <img src="/favicon.svg" alt={SITE_TITLE} width="36" height="36" />
+      </a>
+    </div>
+    <div class="dark-mode-container">
+      <DarkModeToggle client:load />
     </div>
   </nav>
 </header>
 <style>
+  @reference "../styles/global.css";
   header {
-    margin: 0;
-    padding: 0 1em;
-    background: white;
-    box-shadow: 0 2px 8px rgba(var(--black), 5%);
-  }
-  h2 {
-    margin: 0;
-    font-size: 1em;
+    border-bottom: 1px solid rgba(var(--gray), 0.5);
+    background-color: var(--background);
+    transition: background-color 0.3s ease;
   }
 
-  h2 a,
-  h2 a.active {
-    text-decoration: none;
-  }
   nav {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding: 1rem;
+    max-width: 100%;
+    margin: 0 auto;
   }
-  nav a {
-    padding: 1em 0.5em;
-    color: var(--black);
-    border-bottom: 4px solid transparent;
+
+  .left-spacer,
+  .dark-mode-container {
+    flex: 1;
+  }
+
+  .dark-mode-container {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .logo a {
+    display: flex;
+    align-items: center;
     text-decoration: none;
   }
-  nav a.active {
-    text-decoration: none;
-    border-bottom-color: var(--accent);
+
+  .logo img {
+    transition: transform 0.3s ease;
+  }
+
+  .logo a:hover img {
+    transform: scale(1.1);
   }
 </style>
