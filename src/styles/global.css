@@ -99,11 +99,6 @@ input {
 table {
 	width: 100%;
 }
-img {
-	max-width: 100%;
-	height: auto;
-	border-radius: 8px;
-}
 code {
 	font-family: 'Courier Prime', monospace;
 	padding: 2px 5px;
