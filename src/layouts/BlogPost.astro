@@ -35,14 +35,177 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
         max-width: 720px;
         margin: auto;
         padding: 1em;
-        color: rgb(var(--gray-dark));
+        color: var(--text-color);
       }
+      .content {
+        color: var(--text-color);
+      }
+      .content :global(h1),
+      .content :global(h2),
+      .content :global(h3),
+      .content :global(h4),
+      .content :global(h5),
+      .content :global(h6) {
+        color: var(--heading-color);
+      }
+      .content :global(p),
+      .content :global(li),
+      .content :global(blockquote) {
+        color: var(--text-color);
+      }
+      .content :global(code) {
+        background-color: var(--code-bg);
+        color: var(--text-color);
+        padding: 0.2em 0.4em;
+        font-size: 0.9em;
+        border-radius: 3px;
+        font-family: "Courier Prime", monospace;
+      }
+      .content :global(pre) {
+        background-color: var(--code-bg);
+        border-radius: 6px;
+        padding: 1em;
+        overflow: auto;
+        font-family: "Courier Prime", monospace;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1) inset;
+      }
+      .content :global(pre code) {
+        background-color: transparent;
+        padding: 0;
+        border-radius: 0;
+      }
+      .content :global(a) {
+        color: var(--accent);
+      }
+      .content :global(blockquote) {
+        background-color: var(--blockquote-bg);
+        border-left-color: var(--accent);
+      }
+      .content :global(kbd) {
+        display: inline-block;
+        padding: 0.1em 0.6em;
+        font-family: "Courier Prime", monospace;
+        font-size: 0.9em;
+        font-weight: 700;
+        line-height: 1.4;
+        color: var(--kbd-text);
+        background-color: var(--kbd-bg);
+        border: 1px solid var(--kbd-border);
+        border-radius: 3px;
+        box-shadow: 0 1px 1px rgba(var(--black), 0.2);
+        white-space: nowrap;
+        margin: 0 0.1em;
+      }
+      .content :global(mark) {
+        background-color: var(--mark-bg);
+        color: var(--mark-text);
+        padding: 0.1em 0.3em;
+        border-radius: 2px;
+      }
+      .content :global(sub),
+      .content :global(sup) {
+        font-size: 75%;
+        line-height: 0;
+        position: relative;
+        vertical-align: baseline;
+      }
+      .content :global(sup) {
+        top: -0.5em;
+      }
+      .content :global(sub) {
+        bottom: -0.25em;
+      }
+      .content :global(abbr[title]) {
+        border-bottom: 1px dotted var(--text-color);
+        cursor: help;
+        text-decoration: none;
+      }
+      .content :global(table) {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 1.5em 0;
+      }
+      .content :global(th),
+      .content :global(td) {
+        padding: 0.5em;
+        border: 1px solid var(--table-border);
+      }
+      .content :global(th) {
+        background-color: var(--table-header-bg);
+        color: var(--table-header-text);
+        font-weight: 700;
+        text-align: left;
+      }
+      .content :global(tr:nth-child(even)) {
+        background-color: var(--table-row-even-bg);
+      }
+      .content :global(tr:nth-child(odd)) {
+        background-color: var(--table-row-odd-bg);
+      }
+      .content :global(img) {
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+        display: block;
+        margin: 2em auto;
+      }
+
+      /* Dark mode specific image adjustments */
+      :global(.dark-theme) .content :global(img:not([src*=".svg"])) {
+        filter: brightness(0.85) contrast(1.05);
+      }
+
+      /* Bold/Strong text styling with better contrast */
+      .content :global(strong),
+      .content :global(b) {
+        font-weight: 700;
+        color: var(--strong-text);
+      }
+
+      /* Add an extra emphasis effect for dark mode */
+      :global(.dark-theme) .content :global(strong),
+      :global(.dark-theme) .content :global(b) {
+        text-shadow: 0 0 0.5px var(--strong-text);
+        font-weight: 800; /* Slightly bolder in dark mode for better visibility */
+      }
+
+      /* Italic text styling */
+      .content :global(em),
+      .content :global(i) {
+        font-style: italic;
+        color: var(--italic-text);
+      }
+
+      /* Styling for combined elements */
+      .content :global(strong em),
+      .content :global(strong i),
+      .content :global(b em),
+      .content :global(b i),
+      .content :global(em strong),
+      .content :global(em b),
+      .content :global(i strong),
+      .content :global(i b) {
+        font-weight: 700;
+        font-style: italic;
+        color: var(--strong-italic-text);
+      }
+
+      /* Table cell styling for bold content */
+      .content :global(td strong),
+      .content :global(td b) {
+        color: var(--table-strong-text);
+      }
+
       .title {
         text-align: center;
       }
+      .title h1 {
+        color: var(--heading-color);
+      }
       .date {
         margin-bottom: 0.5em;
-        color: rgb(var(--gray));
+        color: var(--text-color);
+        opacity: 0.7;
       }
       .last-updated-on {
         font-style: italic;
@@ -73,9 +236,16 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
                 )
               }
             </div>
-            <h1 class="border-b border-stone-200 pb-4">{title}</h1>
+            <h1
+              class="border-b pb-4"
+              style="border-color: var(--text-color); border-opacity: 0.2;"
+            >
+              {title}
+            </h1>
           </div>
-          <slot />
+          <div class="content">
+            <slot />
+          </div>
         </div>
       </article>
     </main>

@@ -51,6 +51,7 @@ const posts = (await getCollection("blog")).sort(
       }
       ul li a {
         display: block;
+        color: var(--heading-color);
       }
 
       @media (max-width: 720px) {
@@ -70,9 +71,12 @@ const posts = (await getCollection("blog")).sort(
       }
       .title {
         @apply text-2xl mb-0;
+        color: var(--heading-color);
       }
       .date {
-        @apply text-stone-400 text-sm;
+        color: var(--text-color);
+        opacity: 0.7;
+        @apply text-sm;
       }
     </style>
   </head>

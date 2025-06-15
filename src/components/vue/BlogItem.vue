@@ -29,9 +29,10 @@ const backgroundImageStyle = computed(() => {
 
     if (!imageUrl) return {};
 
+    // Adjust gradient based on theme - use CSS variables
     return {
         backgroundImage: `
-      linear-gradient(rgba(255, 255, 255, 0.675), rgba(255, 255, 255, 1.0)),
+      linear-gradient(rgba(var(--bg-overlay-light), 0.8), rgba(var(--bg-overlay-light), 0.95)),
       url(${imageUrl})
     `,
         backgroundSize: 'cover',
@@ -50,48 +51,73 @@ const backgroundImageStyle = computed(() => {
 
 /* Default background if no image */
 .blog-post-item:not([style*="background-image"]) {
-    @apply bg-white py-4;
+    background-color: var(--background);
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    border: 1px solid rgba(var(--gray), 0.2);
 }
 
 /* Style with background image */
 .blog-post-item[style*="background-image"] {
-    @apply pb-4 pt-12 bg-cover bg-center relative;
+    padding-bottom: 1rem;
+    padding-top: 3rem;
+    background-size: cover;
+    background-position: center;
+    position: relative;
 }
 
 /* Add blur effect to background images */
 .blog-post-item[style*="background-image"]::before {
     content: "";
-    @apply absolute inset-0 backdrop-blur-sm pointer-events-none;
+    position: absolute;
+    inset: 0;
+    backdrop-filter: blur(2px);
+    pointer-events: none;
 }
 
 /* Add noise texture overlay */
 .blog-post-item[style*="background-image"]::after {
     content: "";
-    @apply absolute inset-0 pointer-events-none;
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.1'/%3E%3C/svg%3E");
-    @apply opacity-15;
+    opacity: 0.15;
     mix-blend-mode: overlay;
 }
 
 .blog-post-content {
-    @apply relative z-10 w-full;
+    position: relative;
+    z-index: 10;
+    width: 100%;
 }
 
 .blog-post-title {
-    @apply text-2xl font-bold mb-2;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
     font-family: 'Courier Prime', Courier, monospace;
+    color: var(--heading-color);
 }
 
 .blog-post-description {
-    @apply mb-4 opacity-90 text-base leading-relaxed;
+    margin-bottom: 1rem;
+    opacity: 0.9;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--text-color);
 }
 
 .blog-post-date {
-    @apply block text-xs opacity-70 -mt-2;
+    display: block;
+    font-size: 0.75rem;
+    opacity: 0.7;
+    margin-top: -0.5rem;
+    color: var(--text-color);
 }
 
 /* Hover effect */
 .blog-post-item:hover {
-    @apply shadow-lg;
+    box-shadow: var(--box-shadow);
 }
 </style>
