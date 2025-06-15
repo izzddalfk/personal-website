@@ -18,8 +18,7 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
       @reference "../styles/global.css";
 
       main {
-        @apply pt-8;
-        width: calc(100% - 2em);
+        @apply pt-4;
         max-width: 100%;
         margin: 0;
       }
@@ -39,13 +38,7 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
         color: rgb(var(--gray-dark));
       }
       .title {
-        margin-bottom: 1em;
-        padding: 1em 0;
         text-align: center;
-        line-height: 1;
-      }
-      .title h1 {
-        margin: 0 0 0.5em 0;
       }
       .date {
         margin-bottom: 0.5em;
@@ -80,8 +73,7 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
                 )
               }
             </div>
-            <h1>{title}</h1>
-            <hr />
+            <h1 class="border-b border-stone-200 pb-4">{title}</h1>
           </div>
           <slot />
         </div>

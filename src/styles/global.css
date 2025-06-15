@@ -5,8 +5,9 @@
   Courier Prime: Used headings and any text in blocks
   Rubik: Not determined yet
 */
- @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Onest:wght@100..900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
- @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Onest:wght@100..900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
  /* Tailwindcss preflight */
 @layer theme, base, components, utilities;
@@ -57,47 +58,6 @@ h6 {
 	color: rgb(var(--black));
 	line-height: 1.2;
 	letter-spacing: -0.1rem;
-}
-h1 {
-	font-size: 3.052em;
-}
-h2 {
-	font-size: 2.441em;
-}
-h3 {
-	font-size: 1.953em;
-}
-h4 {
-	font-size: 1.563em;
-}
-h5 {
-	font-size: 1.25em;
-}
-strong,
-b {
-	font-weight: 700;
-}
-a {
-	color: var(--accent);
-}
-a:hover {
-	color: var(--accent);
-}
-p {
-	margin-bottom: 1em;
-}
-.prose p {
-	@apply mb-4;
-}
-textarea {
-	width: 100%;
-	font-size: 16px;
-}
-input {
-	font-size: 16px;
-}
-table {
-	width: 100%;
 }
 img {
 	max-width: 100%;
