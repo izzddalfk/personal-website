@@ -50,14 +50,50 @@ Any static assets, like images, can be placed in the `public/` directory.
 
 All commands are run from the root of the project, from a terminal:
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `bun install`             | Installs dependencies                            |
+| Command               | Action                                           |
+| :-------------------- | :----------------------------------------------- |
+| `bun install`         | Installs dependencies                            |
 | `bun dev`             | Starts local dev server at `localhost:4321`      |
 | `bun build`           | Build your production site to `./dist/`          |
 | `bun preview`         | Preview your build locally, before deploying     |
 | `bun astro ...`       | Run CLI commands like `astro add`, `astro check` |
 | `bun astro -- --help` | Get help using the Astro CLI                     |
+
+## 🚀 Deployment
+
+This website is automatically deployed to GitHub Pages using GitHub Actions. When you push to the `main` or `master` branch, the site will be built and deployed.
+
+### GitHub Pages Configuration
+
+1. The `astro.config.mjs` file has been configured for GitHub Pages:
+
+   - `site` is set to the GitHub Pages URL
+   - `base` is set to the repository name
+
+2. A GitHub Actions workflow has been set up in `.github/workflows/deploy.yml` to:
+   - Build the site with Astro
+   - Deploy to GitHub Pages
+
+### Internal Links Configuration
+
+Ketika menggunakan `base` path dalam konfigurasi Astro, semua link internal perlu dimulai dengan nilai `base` tersebut. Beberapa penyesuaian yang telah dilakukan:
+
+1. Menambahkan konstanta `BASE_URL` di `src/consts.ts`
+2. Mengupdate semua link di komponen-komponen untuk menggunakan `BASE_URL`, termasuk:
+   - Link navigasi di `Header.astro`
+   - Link artikel di halaman blog
+   - Link pagination
+   - Link RSS Feed
+
+### GitHub Repository Setup
+
+To complete the deployment setup:
+
+1. Push this project to GitHub
+2. Go to your repository's "Settings" tab
+3. Navigate to "Pages" section
+4. Under "Build and deployment", select "GitHub Actions" as the source
+5. Your site will be deployed at `https://[username].github.io/personal-website/`
 
 ## 👀 Want to learn more?
 

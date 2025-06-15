@@ -4,7 +4,7 @@ import BaseHead from "../../components/BaseHead.astro";
 import FormattedDate from "../../components/FormattedDate.astro";
 import Footer from "../../components/Footer.astro";
 import BlogItem from "../../components/vue/BlogItem.vue";
-import { SITE_TITLE, SITE_DESCRIPTION } from "../../consts";
+import { SITE_TITLE, SITE_DESCRIPTION, BASE_URL } from "../../consts";
 import Header from "../../components/Header.astro";
 
 // Pagination configuration
@@ -28,9 +28,10 @@ const endIndex = startIndex + POSTS_PER_PAGE;
 const posts = allPosts.slice(startIndex, endIndex);
 
 // Previous and next page URLs
-const prevPageUrl = currentPage > 2 ? `/blog?page=${currentPage - 1}` : "/";
+const prevPageUrl =
+  currentPage > 2 ? `${BASE_URL}/blog?page=${currentPage - 1}` : `${BASE_URL}/`;
 const nextPageUrl =
-  currentPage < totalPages ? `/blog?page=${currentPage + 1}` : null;
+  currentPage < totalPages ? `${BASE_URL}/blog?page=${currentPage + 1}` : null;
 
 // Calculate page numbers to display
 const pageNumbers: (number | string)[] = [];
@@ -95,7 +96,7 @@ const pageTitle = `Blog - Halaman ${currentPage}`;
             {
               posts.map((post) => (
                 <li>
-                  <a href={`/blog/${post.id}/`}>
+                  <a href={`${BASE_URL}/blog/${post.id}/`}>
                     <BlogItem
                       post={post}
                       imageUrl={post.data.heroImage?.src || ""}
@@ -137,8 +138,8 @@ const pageTitle = `Blog - Halaman ${currentPage}`;
                         <a
                           href={
                             pageNum === 1
-                              ? "/"
-                              : `/blog${pageNum === 2 ? "" : `?page=${pageNum}`}`
+                              ? `${BASE_URL}/`
+                              : `${BASE_URL}/blog${pageNum === 2 ? "" : `?page=${pageNum}`}`
                           }
                           class={`px-3 py-2 text-sm font-medium rounded-md ${
                             pageNum === currentPage
