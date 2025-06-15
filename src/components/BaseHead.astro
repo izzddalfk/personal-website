@@ -20,6 +20,7 @@ const { title, description, image = FallbackImage } = Astro.props;
 <!-- Global Metadata -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="color-scheme" content="light dark" />
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <link rel="sitemap" href="/sitemap-index.xml" />
 <link
@@ -56,3 +57,47 @@ const { title, description, image = FallbackImage } = Astro.props;
 <meta property="twitter:title" content={title} />
 <meta property="twitter:description" content={description} />
 <meta property="twitter:image" content={new URL(image.src, Astro.url)} />
+
+<!-- Dark mode initialization script -->
+<script is:inline>
+  // Check for saved theme preference or use the system preference
+  const getInitialTheme = () => {
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme) {
+      return savedTheme;
+    }
+    // Default to system preference
+    return "system";
+  };
+
+  // Apply the theme
+  const theme = getInitialTheme();
+  if (theme === "dark") {
+    document.documentElement.classList.add("dark-theme");
+  } else if (theme === "system") {
+    // If system preference is dark, add dark-theme class
+    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+      document.documentElement.classList.add("dark-theme");
+    } else {
+      document.documentElement.classList.remove("dark-theme");
+    }
+  } else {
+    document.documentElement.classList.remove("dark-theme");
+  }
+
+  // Listen for system preference changes if using system theme
+  const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+  const handleSystemThemeChange = () => {
+    const savedTheme = localStorage.getItem("theme");
+    if (!savedTheme || savedTheme === "system") {
+      if (mediaQuery.matches) {
+        document.documentElement.classList.add("dark-theme");
+      } else {
+        document.documentElement.classList.remove("dark-theme");
+      }
+    }
+  };
+
+  // Add listener for system theme changes
+  mediaQuery.addEventListener("change", handleSystemThemeChange);
+</script>
