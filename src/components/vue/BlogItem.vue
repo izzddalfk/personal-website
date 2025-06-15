@@ -54,7 +54,6 @@ const backgroundImageStyle = computed(() => {
     background-color: var(--background);
     padding-top: 1rem;
     padding-bottom: 1rem;
-    border: 1px solid rgba(var(--gray), 0.2);
 }
 
 /* Style with background image */

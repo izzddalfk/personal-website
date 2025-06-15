@@ -112,7 +112,7 @@ h6 {
 	font-family: 'Courier Prime', sans-serif;
 	color: var(--heading-color);
 	line-height: 1.2;
-	letter-spacing: -0.1rem;
+	letter-spacing: -0.025rem;
 }
 p {
 	@apply mb-2;
@@ -132,7 +132,7 @@ pre > code {
 	all: unset;
 }
 blockquote {
-	@apply pt-4 pb-1 pl-4;
+	@apply py-1 pl-4;
 	background-color: var(--blockquote-bg);
 	border-left: 4px solid var(--accent);
 }
