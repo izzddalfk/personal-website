@@ -31,7 +31,7 @@ const backgroundImageStyle = computed(() => {
 
     return {
         backgroundImage: `
-      linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 1.0)),
+      linear-gradient(rgba(255, 255, 255, 0.675), rgba(255, 255, 255, 1.0)),
       url(${imageUrl})
     `,
         backgroundSize: 'cover',
@@ -87,7 +87,7 @@ const backgroundImageStyle = computed(() => {
 }
 
 .blog-post-date {
-    @apply block text-sm opacity-70;
+    @apply block text-xs opacity-70 -mt-2;
 }
 
 /* Hover effect */
