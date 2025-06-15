@@ -97,6 +97,7 @@ body {
 	transition: color 0.3s ease, background-color 0.3s ease;
 }
 main {
+	width: 100%;
 	max-width: 720px;
 	margin: auto;
 	flex: 1;
@@ -165,4 +166,29 @@ hr {
 	clip-path: inset(50%);
 	/* added line to stop words getting smushed together (as they go onto separate lines and some screen readers do not understand line feeds as a space */
 	white-space: nowrap;
+}
+
+/* Pagination Controls */
+.pagination-controls a {
+  transition: all 0.2s ease-in-out;
+  color: var(--text-color);
+  border-color: rgba(var(--gray), 30%);
+  background-color: var(--background);
+}
+
+.pagination-controls a:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(var(--gray), 20%);
+}
+
+.pagination-controls a.active {
+  background-color: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
+.pagination-info {
+  color: rgba(var(--gray), 70%);
 }

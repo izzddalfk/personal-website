@@ -8,9 +8,52 @@ import PopOver from "../components/vue/PopOver.vue";
 import BlogItem from "../components/vue/BlogItem.vue";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 
-const posts = (await getCollection("blog")).sort(
+// Pagination configuration
+const POSTS_PER_PAGE = 5;
+const currentPage = 1; // First page
+
+// Get all posts sorted by date
+const allPosts = (await getCollection("blog")).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
+
+// Calculate pagination values
+const totalPosts = allPosts.length;
+const totalPages = Math.ceil(totalPosts / POSTS_PER_PAGE);
+const startIndex = 0; // Always start at first post for index
+const endIndex = POSTS_PER_PAGE;
+
+// Get posts for current page
+const posts = allPosts.slice(startIndex, endIndex);
+
+// Previous and next page URLs
+const prevPageUrl = null; // No previous page for index
+const nextPageUrl = totalPages > 1 ? `/blog` : null;
+
+// Calculate page numbers to display
+const pageNumbers: (number | string)[] = [];
+const maxPagesToShow = 5;
+if (totalPages <= maxPagesToShow) {
+  // If we have 5 or fewer pages, show all page numbers
+  for (let i = 1; i <= totalPages; i++) {
+    pageNumbers.push(i);
+  }
+} else {
+  // More than 5 pages, show first few pages and ellipsis
+  pageNumbers.push(1);
+  if (totalPages > 2) {
+    pageNumbers.push(2);
+  }
+  if (totalPages > 3) {
+    pageNumbers.push(3);
+  }
+  if (totalPages > 4) {
+    if (totalPages > 5) {
+      pageNumbers.push("...");
+    }
+    pageNumbers.push(totalPages);
+  }
+}
 ---
 
 <!doctype html>
@@ -77,6 +120,64 @@ const posts = (await getCollection("blog")).sort(
               ))
             }
           </ul>
+
+          <!-- Pagination Controls -->
+          {
+            totalPages > 1 && (
+              <div class="flex flex-col md:flex-row justify-between items-center my-10 pt-6 border-t border-gray-200 pagination-controls">
+                <div class="flex space-x-1 text-sm pagination-info mb-4 md:mb-0">
+                  <span>
+                    Halaman {currentPage} dari {totalPages}
+                  </span>
+                </div>
+
+                <div class="flex items-center space-x-2">
+                  {prevPageUrl && (
+                    <a
+                      href={prevPageUrl}
+                      class="px-3 py-2 text-sm font-medium rounded-md border"
+                    >
+                      ← Sebelumnya
+                    </a>
+                  )}
+
+                  <div class="hidden md:flex space-x-1">
+                    {pageNumbers.map((pageNum) =>
+                      pageNum === "..." ? (
+                        <span class="px-3 py-2 text-sm">...</span>
+                      ) : (
+                        <a
+                          href={
+                            pageNum === 1
+                              ? "/"
+                              : pageNum === 2
+                                ? "/blog"
+                                : `/blog?page=${pageNum}`
+                          }
+                          class={`px-3 py-2 text-sm font-medium rounded-md ${
+                            pageNum === currentPage
+                              ? "bg-accent text-white border border-accent"
+                              : "border"
+                          }`}
+                        >
+                          {pageNum}
+                        </a>
+                      )
+                    )}
+                  </div>
+
+                  {nextPageUrl && (
+                    <a
+                      href={nextPageUrl}
+                      class="px-3 py-2 text-sm font-medium rounded-md border"
+                    >
+                      Selanjutnya →
+                    </a>
+                  )}
+                </div>
+              </div>
+            )
+          }
         </section>
       </div>
     </main>

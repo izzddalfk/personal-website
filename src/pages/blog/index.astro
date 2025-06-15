@@ -1,8 +1,172 @@
 ---
-// Redirect to the homepage
-Astro.response.status = 301;
-Astro.response.headers.set("Location", "/");
-if (Astro.request.url.includes("/blog")) {
-  return Astro.redirect("/");
+import { getCollection } from "astro:content";
+import BaseHead from "../../components/BaseHead.astro";
+import FormattedDate from "../../components/FormattedDate.astro";
+import Footer from "../../components/Footer.astro";
+import BlogItem from "../../components/vue/BlogItem.vue";
+import { SITE_TITLE, SITE_DESCRIPTION } from "../../consts";
+import Header from "../../components/Header.astro";
+
+// Pagination configuration
+const POSTS_PER_PAGE = 5;
+// Get the page from query params or default to page 2 (since page 1 is the homepage)
+const page = parseInt(Astro.url.searchParams.get("page") || "2");
+const currentPage = page < 2 ? 2 : page; // Ensure we never show page 1 here
+
+// Get all posts sorted by date
+const allPosts = (await getCollection("blog")).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+// Calculate pagination values
+const totalPosts = allPosts.length;
+const totalPages = Math.ceil(totalPosts / POSTS_PER_PAGE);
+const startIndex = (currentPage - 1) * POSTS_PER_PAGE;
+const endIndex = startIndex + POSTS_PER_PAGE;
+
+// Get posts for current page
+const posts = allPosts.slice(startIndex, endIndex);
+
+// Previous and next page URLs
+const prevPageUrl = currentPage > 2 ? `/blog?page=${currentPage - 1}` : "/";
+const nextPageUrl =
+  currentPage < totalPages ? `/blog?page=${currentPage + 1}` : null;
+
+// Calculate page numbers to display
+const pageNumbers: (number | string)[] = [];
+const maxPagesToShow = 5;
+if (totalPages <= maxPagesToShow) {
+  // If we have 5 or fewer pages, show all page numbers
+  for (let i = 1; i <= totalPages; i++) {
+    pageNumbers.push(i);
+  }
+} else {
+  // More than 5 pages, calculate which ones to show
+  let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
+  let endPage = startPage + maxPagesToShow - 1;
+
+  // Adjust if we're near the end
+  if (endPage > totalPages) {
+    endPage = totalPages;
+    startPage = Math.max(1, endPage - maxPagesToShow + 1);
+  }
+
+  // Add ellipsis indicator
+  if (startPage > 1) {
+    pageNumbers.push(1);
+    if (startPage > 2) {
+      pageNumbers.push("...");
+    }
+  }
+
+  // Add page numbers
+  for (let i = startPage; i <= endPage; i++) {
+    pageNumbers.push(i);
+  }
+
+  // Add ending ellipsis if needed
+  if (endPage < totalPages) {
+    if (endPage < totalPages - 1) {
+      pageNumbers.push("...");
+    }
+    pageNumbers.push(totalPages);
+  }
 }
+
+const pageTitle = `Blog - Halaman ${currentPage}`;
 ---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead
+      title={`${pageTitle} | ${SITE_TITLE}`}
+      description={SITE_DESCRIPTION}
+    />
+  </head>
+  <body>
+    <Header />
+    <main class="pt-6">
+      <div class="flex flex-col gap-y-4">
+        <!-- Blog list using Vue component -->
+        <section class="mx-auto w-full">
+          <h1 class="text-3xl font-bold mb-4">Semua Catatan</h1>
+          <ul class="space-y-6">
+            {
+              posts.map((post) => (
+                <li>
+                  <a href={`/blog/${post.id}/`}>
+                    <BlogItem
+                      post={post}
+                      imageUrl={post.data.heroImage?.src || ""}
+                      client:load
+                    >
+                      <FormattedDate slot="date" date={post.data.pubDate} />
+                    </BlogItem>
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+
+          <!-- Pagination Controls -->
+          {
+            totalPages > 1 && (
+              <div class="flex flex-col md:flex-row justify-between items-center mt-10 pt-6 border-t border-gray-200 pagination-controls">
+                <div class="flex space-x-1 text-sm pagination-info mb-4 md:mb-0">
+                  <span>
+                    Halaman {currentPage} dari {totalPages}
+                  </span>
+                </div>
+
+                <div class="flex items-center space-x-2">
+                  {prevPageUrl && (
+                    <a
+                      href={prevPageUrl}
+                      class="px-3 py-2 text-sm font-medium rounded-md border"
+                    >
+                      ← Sebelumnya
+                    </a>
+                  )}
+
+                  <div class="hidden md:flex space-x-1">
+                    {pageNumbers.map((pageNum) =>
+                      pageNum === "..." ? (
+                        <span class="px-3 py-2 text-sm">...</span>
+                      ) : (
+                        <a
+                          href={
+                            pageNum === 1
+                              ? "/"
+                              : `/blog${pageNum === 2 ? "" : `?page=${pageNum}`}`
+                          }
+                          class={`px-3 py-2 text-sm font-medium rounded-md ${
+                            pageNum === currentPage
+                              ? "bg-accent text-white border border-accent"
+                              : "border"
+                          }`}
+                        >
+                          {pageNum}
+                        </a>
+                      )
+                    )}
+                  </div>
+
+                  {nextPageUrl && (
+                    <a
+                      href={nextPageUrl}
+                      class="px-3 py-2 text-sm font-medium rounded-md border"
+                    >
+                      Selanjutnya →
+                    </a>
+                  )}
+                </div>
+              </div>
+            )
+          }
+        </section>
+      </div>
+    </main>
+    <Footer />
+  </body>
+</html>
